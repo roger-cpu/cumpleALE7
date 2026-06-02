@@ -138,7 +138,22 @@ cursor:pointer;
 ">
 🪐 Viaje al Planeta Fiesta
 </button>
-
+<button id="juegoBtn"
+style="
+display:block;
+width:320px;
+margin:15px;
+padding:20px;
+font-size:22px;
+font-weight:bold;
+border-radius:15px;
+border:none;
+background:#32CD32;
+color:white;
+cursor:pointer;
+">
+🎮 Atrapa las Estrellas
+</button>
 </div>
 
 <div id="videoMenu"
@@ -292,6 +307,14 @@ document.getElementById("ubicacionBtn")
 
 });
 
+document.getElementById("juegoBtn")
+.addEventListener("click", function() {
+
+    window.location.href = "juego.html";
+
+});
+
+  
 const marker = document.querySelector("a-marker");
 
 marker.addEventListener("markerFound", function () {
