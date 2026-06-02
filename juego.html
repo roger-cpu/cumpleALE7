@@ -1,1 +1,252 @@
-hola
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+
+<title>Atrapa las Estrellas</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+    margin:0;
+    overflow:hidden;
+    background:linear-gradient(to bottom,#000428,#004e92);
+    font-family:Arial,sans-serif;
+    color:white;
+    text-align:center;
+}
+
+#hud{
+    position:fixed;
+    top:10px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:1000;
+    font-size:24px;
+    font-weight:bold;
+}
+
+#inicio{
+
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:2000;
+    background:rgba(0,0,50,0.9);
+    padding:30px;
+    border-radius:20px;
+}
+
+#resultado{
+
+    display:none;
+
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:2000;
+    background:rgba(0,0,50,0.9);
+    padding:30px;
+    border-radius:20px;
+}
+
+button{
+
+    padding:15px 30px;
+    font-size:22px;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+#star{
+
+    position:fixed;
+    width:100px;
+    height:100px;
+
+    left:50%;
+    top:50%;
+
+    transform:translate(-50%,-50%);
+
+    display:none;
+
+    filter:drop-shadow(0 0 20px gold);
+}
+
+@keyframes glow{
+
+    0%{
+        filter:drop-shadow(0 0 10px gold);
+    }
+
+    50%{
+        filter:drop-shadow(0 0 35px gold);
+    }
+
+    100%{
+        filter:drop-shadow(0 0 10px gold);
+    }
+
+}
+
+#star{
+
+    animation:glow 1.5s infinite;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="hud">
+
+⭐ <span id="puntos">0</span>
+&nbsp;&nbsp;&nbsp;
+⏱️ <span id="tiempo">30</span>
+
+</div>
+
+<div id="inicio">
+
+<h1>⭐ Atrapa las Estrellas ⭐</h1>
+
+<p>
+Ayuda a Mario a reunir estrellas galácticas.
+</p>
+
+<button id="comenzar">
+
+🚀 Comenzar
+
+</button>
+
+</div>
+
+<div id="resultado"></div>
+
+<img id="star" src="star.png">
+
+<script>
+
+let puntos=0;
+let tiempo=30;
+
+let x=200;
+let y=200;
+
+let vx=5;
+let vy=4;
+
+let intervaloJuego;
+let intervaloTiempo;
+
+const star=document.getElementById("star");
+
+function moverEstrella(){
+
+    x+=vx;
+    y+=vy;
+
+    if(x<0 || x>window.innerWidth-100){
+
+        vx=-vx;
+
+    }
+
+    if(y<0 || y>window.innerHeight-100){
+
+        vy=-vy;
+
+    }
+
+    star.style.left=x+"px";
+    star.style.top=y+"px";
+
+}
+
+star.addEventListener("click",function(){
+
+    puntos++;
+
+    document.getElementById("puntos").innerText=puntos;
+
+    vx*=1.03;
+    vy*=1.03;
+
+});
+
+document.getElementById("comenzar")
+.addEventListener("click",function(){
+
+    document.getElementById("inicio").style.display="none";
+
+    star.style.display="block";
+
+    intervaloJuego=setInterval(moverEstrella,16);
+
+    intervaloTiempo=setInterval(function(){
+
+        tiempo--;
+
+        document.getElementById("tiempo").innerText=tiempo;
+
+        if(tiempo<=0){
+
+            clearInterval(intervaloJuego);
+            clearInterval(intervaloTiempo);
+
+            star.style.display="none";
+
+            let rango="🌱 Pequeño Explorador";
+
+            if(puntos>=10) rango="⭐ Cazador de Estrellas";
+
+            if(puntos>=20) rango="🚀 Capitán Galáctico";
+
+            if(puntos>=30) rango="👑 Maestro de la Galaxia";
+
+            document.getElementById("resultado").innerHTML=
+            `
+            <h1>🌟 Fin del Juego 🌟</h1>
+
+            <h2>${puntos} estrellas</h2>
+
+            <h2>${rango}</h2>
+
+            <button onclick="location.reload()">
+
+            Jugar otra vez
+
+            </button>
+
+            <br><br>
+
+            <button onclick="window.location.href='index.html'">
+
+            Volver a la Invitación
+
+            </button>
+            `;
+
+            document.getElementById("resultado").style.display="block";
+
+        }
+
+    },1000);
+
+});
+
+</script>
+
+</body>
+</html>
