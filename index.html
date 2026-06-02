@@ -7,7 +7,49 @@
 <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 </head>
+<style>
 
+@keyframes floatStar {
+
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+
+}
+
+@keyframes glowStar {
+
+  0% {
+    filter: drop-shadow(0 0 5px gold);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 35px gold);
+  }
+
+  100% {
+    filter: drop-shadow(0 0 5px gold);
+  }
+
+}
+
+.floatingStar {
+
+  animation:
+    floatStar 2.5s ease-in-out infinite,
+    glowStar 2.5s ease-in-out infinite;
+
+}
+
+</style>
 <body style="margin:0; overflow:hidden;">
 
 <div id="mensajeInicial"
@@ -30,6 +72,7 @@ max-width:350px;
 
 <img
 src="star.png"
+class="floatingStar"
 style="
 width:120px;
 display:block;
@@ -60,6 +103,7 @@ border-radius:20px;
 
 <img
 src="star.png"
+class="floatingStar"
 style="
 width:150px;
 display:block;
