@@ -25,7 +25,7 @@ font-weight:bold;
 text-align:center;
 box-shadow:0 0 15px rgba(0,0,0,0.3);
 ">
-📷 Apunta tu cámara a la invitación.
+📷 Apunta tu cámara a la invitación
 </div>
 
 <div id="menu"
@@ -73,6 +73,18 @@ cursor:pointer;
 
 </div>
 
+<div id="videoMenu"
+style="
+display:none;
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:9999;
+text-align:center;
+">
+</div>
+
 <a-scene embedded arjs>
 
 <a-assets>
@@ -108,9 +120,75 @@ height="1.4">
 
 const video = document.getElementById("cumplevideo");
 const menu = document.getElementById("menu");
+const videoMenu = document.getElementById("videoMenu");
 const mensajeInicial = document.getElementById("mensajeInicial");
 
 let marcadorVisible = false;
+
+function mostrarBotonAlternativo(videoActual){
+
+    if(videoActual === "AleCumple6.mp4"){
+
+        videoMenu.innerHTML = `
+        <button id="cambiarUbicacion"
+        style="
+        padding:15px 25px;
+        font-size:18px;
+        border:none;
+        border-radius:12px;
+        background:#87CEEB;
+        cursor:pointer;
+        ">
+        📍 Ver ubicación
+        </button>
+        `;
+
+        document.getElementById("cambiarUbicacion")
+        .addEventListener("click", function(){
+
+            video.src = "ubicacion.mp4";
+
+            video.load();
+
+            video.play();
+
+            mostrarBotonAlternativo("ubicacion.mp4");
+
+        });
+
+    } else {
+
+        videoMenu.innerHTML = `
+        <button id="cambiarMensaje"
+        style="
+        padding:15px 25px;
+        font-size:18px;
+        border:none;
+        border-radius:12px;
+        background:#ffcc00;
+        cursor:pointer;
+        ">
+        🎂 Mensaje de Alejandro
+        </button>
+        `;
+
+        document.getElementById("cambiarMensaje")
+        .addEventListener("click", function(){
+
+            video.src = "AleCumple6.mp4";
+
+            video.load();
+
+            video.play();
+
+            mostrarBotonAlternativo("AleCumple6.mp4");
+
+        });
+
+    }
+
+    videoMenu.style.display = "block";
+}
 
 document.getElementById("mensajeBtn")
 .addEventListener("click", function() {
@@ -122,6 +200,8 @@ document.getElementById("mensajeBtn")
     menu.style.display = "none";
 
     video.play();
+
+    mostrarBotonAlternativo("AleCumple6.mp4");
 
 });
 
@@ -136,6 +216,8 @@ document.getElementById("ubicacionBtn")
 
     video.play();
 
+    mostrarBotonAlternativo("ubicacion.mp4");
+
 });
 
 const marker = document.querySelector("a-marker");
@@ -146,8 +228,10 @@ marker.addEventListener("markerFound", function () {
 
     mensajeInicial.style.display = "none";
 
-    if (video.paused) {
+    if(video.paused){
+
         menu.style.display = "block";
+
     }
 
 });
@@ -160,12 +244,20 @@ marker.addEventListener("markerLost", function () {
 
     menu.style.display = "none";
 
+    videoMenu.style.display = "none";
+
+    mensajeInicial.style.display = "block";
+
 });
 
 video.addEventListener("ended", function () {
 
-    if (marcadorVisible) {
+    videoMenu.style.display = "none";
+
+    if(marcadorVisible){
+
         menu.style.display = "block";
+
     }
 
 });
