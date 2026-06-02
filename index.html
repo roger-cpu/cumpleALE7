@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Cumple AR</title>
+<title>Alejandro Galaxy AR</title>
 
 <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
@@ -17,15 +17,31 @@ top:50%;
 left:50%;
 transform:translate(-50%,-50%);
 z-index:9999;
-background:white;
-padding:20px;
-border-radius:15px;
-font-size:24px;
+background:rgba(0,0,60,0.90);
+color:white;
+padding:25px;
+border-radius:20px;
+font-size:22px;
 font-weight:bold;
 text-align:center;
-box-shadow:0 0 15px rgba(0,0,0,0.3);
+box-shadow:0 0 20px rgba(0,0,0,0.5);
+max-width:350px;
 ">
-📷 Apunta tu cámara a la invitación
+
+<img
+src="star.png"
+style="
+width:120px;
+display:block;
+margin:0 auto 15px auto;
+">
+
+🌟 ¡Bienvenido a la galaxia de Alejandro! 🌟
+
+<br><br>
+
+📷 Apunta tu cámara a la invitación para desbloquear una sorpresa
+
 </div>
 
 <div id="menu"
@@ -37,7 +53,28 @@ left:50%;
 transform:translate(-50%,-50%);
 z-index:9999;
 text-align:center;
+background:rgba(0,0,60,0.85);
+padding:25px;
+border-radius:20px;
 ">
+
+<img
+src="star.png"
+style="
+width:150px;
+display:block;
+margin:0 auto 20px auto;
+">
+
+<div
+style="
+color:white;
+font-size:24px;
+font-weight:bold;
+margin-bottom:20px;
+">
+⭐ ¿Qué misión quieres iniciar?
+</div>
 
 <button id="mensajeBtn"
 style="
@@ -49,10 +86,11 @@ font-size:22px;
 font-weight:bold;
 border-radius:15px;
 border:none;
-background:#ffcc00;
+background:#FFD700;
+color:black;
 cursor:pointer;
 ">
-🎂 Alejandro tiene un mensaje para ti
+🌟 Mensaje Galáctico
 </button>
 
 <button id="ubicacionBtn"
@@ -65,10 +103,11 @@ font-size:22px;
 font-weight:bold;
 border-radius:15px;
 border:none;
-background:#87CEEB;
+background:#5B5BFF;
+color:white;
 cursor:pointer;
 ">
-📍 Esta es la ubicación
+🪐 Viaje al Planeta Fiesta
 </button>
 
 </div>
@@ -132,14 +171,16 @@ function mostrarBotonAlternativo(videoActual){
         videoMenu.innerHTML = `
         <button id="cambiarUbicacion"
         style="
-        padding:15px 25px;
-        font-size:18px;
+        padding:18px 28px;
+        font-size:20px;
+        font-weight:bold;
         border:none;
-        border-radius:12px;
-        background:#87CEEB;
+        border-radius:15px;
+        background:#5B5BFF;
+        color:white;
         cursor:pointer;
         ">
-        📍 Ver ubicación
+        🪐 Viaje al Planeta Fiesta
         </button>
         `;
 
@@ -161,14 +202,16 @@ function mostrarBotonAlternativo(videoActual){
         videoMenu.innerHTML = `
         <button id="cambiarMensaje"
         style="
-        padding:15px 25px;
-        font-size:18px;
+        padding:18px 28px;
+        font-size:20px;
+        font-weight:bold;
         border:none;
-        border-radius:12px;
-        background:#ffcc00;
+        border-radius:15px;
+        background:#FFD700;
+        color:black;
         cursor:pointer;
         ">
-        🎂 Mensaje de Alejandro
+        🌟 Mensaje Galáctico
         </button>
         `;
 
