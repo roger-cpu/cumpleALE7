@@ -3,42 +3,68 @@
 <head>
 
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Atrapa las Estrellas</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
     margin:0;
     overflow:hidden;
-    background:linear-gradient(to bottom,#000428,#004e92);
     font-family:Arial,sans-serif;
-    color:white;
-    text-align:center;
+
+    background-image:url("background.jpg");
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
 }
 
 #hud{
+
     position:fixed;
-    top:10px;
+
+    top:15px;
     left:50%;
+
     transform:translateX(-50%);
+
     z-index:1000;
+
+    background:rgba(0,0,80,0.85);
+
+    color:white;
+
+    padding:12px 22px;
+
+    border-radius:20px;
+
     font-size:24px;
     font-weight:bold;
+
+    box-shadow:0 0 15px rgba(0,0,0,0.5);
 }
 
 #inicio{
 
     position:fixed;
+
     top:50%;
     left:50%;
+
     transform:translate(-50%,-50%);
-    z-index:2000;
-    background:rgba(0,0,50,0.9);
+
+    background:rgba(0,0,80,0.85);
+
+    color:white;
+
     padding:30px;
+
     border-radius:20px;
+
+    text-align:center;
+
+    z-index:2000;
 }
 
 #resultado{
@@ -46,60 +72,75 @@ body{
     display:none;
 
     position:fixed;
+
     top:50%;
     left:50%;
+
     transform:translate(-50%,-50%);
-    z-index:2000;
-    background:rgba(0,0,50,0.9);
+
+    background:rgba(0,0,80,0.90);
+
+    color:white;
+
     padding:30px;
+
     border-radius:20px;
+
+    text-align:center;
+
+    z-index:2000;
 }
 
 button{
 
-    padding:15px 30px;
-    font-size:22px;
+    padding:15px 25px;
+
     border:none;
+
     border-radius:15px;
+
+    font-size:22px;
+
+    font-weight:bold;
+
     cursor:pointer;
-    margin-top:20px;
+
+    margin-top:15px;
 }
 
 #star{
 
     position:fixed;
-    width:100px;
-    height:100px;
+
+    width:110px;
 
     left:50%;
     top:50%;
 
-    transform:translate(-50%,-50%);
-
     display:none;
 
-    filter:drop-shadow(0 0 20px gold);
+    z-index:1500;
+
+    user-select:none;
+    -webkit-user-select:none;
+
+    animation:glow 1.5s infinite;
 }
 
 @keyframes glow{
 
     0%{
-        filter:drop-shadow(0 0 10px gold);
+        filter:drop-shadow(0 0 8px gold);
     }
 
     50%{
-        filter:drop-shadow(0 0 35px gold);
+        filter:drop-shadow(0 0 30px gold);
     }
 
     100%{
-        filter:drop-shadow(0 0 10px gold);
+        filter:drop-shadow(0 0 8px gold);
     }
 
-}
-
-#star{
-
-    animation:glow 1.5s infinite;
 }
 
 </style>
@@ -111,7 +152,9 @@ button{
 <div id="hud">
 
 ⭐ <span id="puntos">0</span>
+
 &nbsp;&nbsp;&nbsp;
+
 ⏱️ <span id="tiempo">30</span>
 
 </div>
@@ -138,108 +181,117 @@ Ayuda a Mario a reunir estrellas galácticas.
 
 <script>
 
-let puntos=0;
-let tiempo=30;
+let puntos = 0;
+let tiempo = 30;
 
-let x=200;
-let y=200;
+let x = 300;
+let y = 300;
 
-let vx=5;
-let vy=4;
+let vx = 5;
+let vy = 4;
 
 let intervaloJuego;
 let intervaloTiempo;
 
-const star=document.getElementById("star");
+const star = document.getElementById("star");
 
 function moverEstrella(){
 
-    x+=vx;
-    y+=vy;
+    x += vx;
+    y += vy;
 
-    if(x<0 || x>window.innerWidth-100){
+    if(x < 0 || x > window.innerWidth - 110){
 
-        vx=-vx;
-
-    }
-
-    if(y<0 || y>window.innerHeight-100){
-
-        vy=-vy;
+        vx = -vx;
 
     }
 
-    star.style.left=x+"px";
-    star.style.top=y+"px";
+    if(y < 0 || y > window.innerHeight - 110){
 
+        vy = -vy;
+
+    }
+
+    star.style.left = x + "px";
+    star.style.top = y + "px";
 }
 
-star.addEventListener("click",function(){
+star.addEventListener("click", function(){
 
     puntos++;
 
-    document.getElementById("puntos").innerText=puntos;
+    document.getElementById("puntos").innerText = puntos;
 
-    vx*=1.03;
-    vy*=1.03;
+    x = Math.random() * (window.innerWidth - 140);
+    y = Math.random() * (window.innerHeight - 180);
+
+    star.style.left = x + "px";
+    star.style.top = y + "px";
+
+    vx *= 1.05;
+    vy *= 1.05;
+
+    star.style.transform = "scale(1.4)";
+
+    setTimeout(function(){
+
+        star.style.transform = "scale(1)";
+
+    },150);
 
 });
 
 document.getElementById("comenzar")
-.addEventListener("click",function(){
+.addEventListener("click", function(){
 
-    document.getElementById("inicio").style.display="none";
+    document.getElementById("inicio").style.display = "none";
 
-    star.style.display="block";
+    star.style.display = "block";
 
-    intervaloJuego=setInterval(moverEstrella,16);
+    intervaloJuego = setInterval(moverEstrella,16);
 
-    intervaloTiempo=setInterval(function(){
+    intervaloTiempo = setInterval(function(){
 
         tiempo--;
 
-        document.getElementById("tiempo").innerText=tiempo;
+        document.getElementById("tiempo").innerText = tiempo;
 
-        if(tiempo<=0){
+        if(tiempo <= 0){
 
             clearInterval(intervaloJuego);
             clearInterval(intervaloTiempo);
 
-            star.style.display="none";
+            star.style.display = "none";
 
-            let rango="🌱 Pequeño Explorador";
+            let rango = "🌱 Pequeño Explorador";
 
-            if(puntos>=10) rango="⭐ Cazador de Estrellas";
+            if(puntos >= 10) rango = "⭐ Cazador de Estrellas";
 
-            if(puntos>=20) rango="🚀 Capitán Galáctico";
+            if(puntos >= 20) rango = "🚀 Capitán Galáctico";
 
-            if(puntos>=30) rango="👑 Maestro de la Galaxia";
+            if(puntos >= 30) rango = "👑 Maestro de la Galaxia";
 
-            document.getElementById("resultado").innerHTML=
-            `
-            <h1>🌟 Fin del Juego 🌟</h1>
+            document.getElementById("resultado").innerHTML = `
 
-            <h2>${puntos} estrellas</h2>
+                <h1>🌟 Fin del Juego 🌟</h1>
 
-            <h2>${rango}</h2>
+                <h2>${puntos} estrellas</h2>
 
-            <button onclick="location.reload()">
+                <h2>${rango}</h2>
 
-            Jugar otra vez
+                <button onclick="location.reload()">
+                Jugar otra vez
+                </button>
 
-            </button>
+                <br>
 
-            <br><br>
+                <button onclick="window.location.href='index.html'">
+                Volver a la invitación
+                </button>
 
-            <button onclick="window.location.href='index.html'">
-
-            Volver a la Invitación
-
-            </button>
             `;
 
-            document.getElementById("resultado").style.display="block";
-
+            document.getElementById("resultado").style.display = "block";
         }
 
     },1000);
