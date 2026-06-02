@@ -9,17 +9,30 @@
 
 <style>
 
-body{
+html, body{
+
+    width:100%;
+    height:100%;
+
     margin:0;
     overflow:hidden;
+}
+
+body{
+
     font-family:Arial,sans-serif;
 
     background-image:url("background.png");
-    background-size:cover;
-    background-position:center;
-    background-repeat:no-repeat;
-}
 
+    background-size:cover;
+
+    background-position:center center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
+}
+    
 #hud{
 
     position:fixed;
@@ -155,6 +168,38 @@ button{
 
 }
 
+.puntoFlotante{
+
+    position:fixed;
+
+    color:white;
+
+    font-size:42px;
+
+    font-weight:bold;
+
+    z-index:3000;
+
+    pointer-events:none;
+
+    animation:subirPunto 0.8s forwards;
+}
+
+@keyframes subirPunto{
+
+    0%{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+    100%{
+        opacity:0;
+        transform:translateY(-80px);
+    }
+
+}
+
+    
 </style>
 
 </head>
@@ -196,8 +241,8 @@ Ayuda a Mario a reunir estrellas galácticas.
 let puntos = 0;
 let tiempo = 30;
 
-let x = 300;
-let y = 300;
+let x = window.innerWidth * 0.5;
+let y = window.innerHeight * 0.5;
 
 let vx = 5;
 let vy = 4;
@@ -227,11 +272,30 @@ function moverEstrella(){
     star.style.left = x + "px";
     star.style.top = y + "px";
 }
+function mostrarPunto(x,y){
 
+    const punto = document.createElement("div");
+
+    punto.className = "puntoFlotante";
+
+    punto.innerHTML = "+1 ⭐";
+
+    punto.style.left = x + "px";
+    punto.style.top = y + "px";
+
+    document.body.appendChild(punto);
+
+    setTimeout(function(){
+
+        punto.remove();
+
+    },800);
+
+}
 star.addEventListener("click", function(){
 
     puntos++;
-
+    mostrarPunto(x,y);
     document.getElementById("puntos").innerText = puntos;
 
     x = Math.random() * (window.innerWidth - 140);
@@ -258,7 +322,8 @@ document.getElementById("comenzar")
 .addEventListener("click", function(){
 
     document.getElementById("inicio").style.display = "none";
-
+    star.style.left = x + "px";
+    star.style.top = y + "px";
     star.style.display = "block";
 
     intervaloJuego = setInterval(moverEstrella,16);
