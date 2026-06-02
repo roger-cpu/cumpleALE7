@@ -10,8 +10,27 @@
 
 <body style="margin:0; overflow:hidden;">
 
+<div id="mensajeInicial"
+style="
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+z-index:9999;
+background:white;
+padding:20px;
+border-radius:15px;
+font-size:24px;
+font-weight:bold;
+text-align:center;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+">
+📷 Apunta tu cámara a la invitación
+</div>
+
 <div id="menu"
 style="
+display:none;
 position:fixed;
 top:50%;
 left:50%;
@@ -62,7 +81,6 @@ cursor:pointer;
 id="cumplevideo"
 src="AleCumple6.mp4"
 preload="auto"
-loop
 playsinline
 webkit-playsinline
 crossorigin="anonymous">
@@ -90,6 +108,9 @@ height="1.8">
 
 const video = document.getElementById("cumplevideo");
 const menu = document.getElementById("menu");
+const mensajeInicial = document.getElementById("mensajeInicial");
+
+let marcadorVisible = false;
 
 document.getElementById("mensajeBtn")
 .addEventListener("click", function() {
@@ -99,6 +120,8 @@ document.getElementById("mensajeBtn")
     video.load();
 
     menu.style.display = "none";
+
+    video.play();
 
 });
 
@@ -111,21 +134,39 @@ document.getElementById("ubicacionBtn")
 
     menu.style.display = "none";
 
+    video.play();
+
 });
 
 const marker = document.querySelector("a-marker");
 
 marker.addEventListener("markerFound", function () {
 
-    video.play().catch(function(error){
-        console.log(error);
-    });
+    marcadorVisible = true;
+
+    mensajeInicial.style.display = "none";
+
+    if (video.paused) {
+        menu.style.display = "block";
+    }
 
 });
 
 marker.addEventListener("markerLost", function () {
 
+    marcadorVisible = false;
+
     video.pause();
+
+    menu.style.display = "none";
+
+});
+
+video.addEventListener("ended", function () {
+
+    if (marcadorVisible) {
+        menu.style.display = "block";
+    }
 
 });
 
