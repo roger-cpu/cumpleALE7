@@ -10,9 +10,54 @@
 
 <body style="margin:0; overflow:hidden;">
 
+<div id="menu"
+style="
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+z-index:9999;
+text-align:center;
+">
+
+<button id="mensajeBtn"
+style="
+display:block;
+width:320px;
+margin:15px;
+padding:20px;
+font-size:22px;
+font-weight:bold;
+border-radius:15px;
+border:none;
+background:#ffcc00;
+cursor:pointer;
+">
+🎂 Alejandro tiene un mensaje para ti
+</button>
+
+<button id="ubicacionBtn"
+style="
+display:block;
+width:320px;
+margin:15px;
+padding:20px;
+font-size:22px;
+font-weight:bold;
+border-radius:15px;
+border:none;
+background:#87CEEB;
+cursor:pointer;
+">
+📍 Esta es la ubicación
+</button>
+
+</div>
+
 <a-scene embedded arjs>
 
 <a-assets>
+
 <video
 id="cumplevideo"
 src="AleCumple6.mp4"
@@ -22,6 +67,7 @@ playsinline
 webkit-playsinline
 crossorigin="anonymous">
 </video>
+
 </a-assets>
 
 <a-marker preset="hiro">
@@ -41,10 +87,48 @@ height="1.8">
 </a-scene>
 
 <script>
-document.body.addEventListener("click", function() {
-  const v = document.getElementById("cumplevideo");
-  v.play();
+
+const video = document.getElementById("cumplevideo");
+const menu = document.getElementById("menu");
+
+document.getElementById("mensajeBtn")
+.addEventListener("click", function() {
+
+    video.src = "AleCumple6.mp4";
+
+    video.load();
+
+    menu.style.display = "none";
+
 });
+
+document.getElementById("ubicacionBtn")
+.addEventListener("click", function() {
+
+    video.src = "ubicacion.mp4";
+
+    video.load();
+
+    menu.style.display = "none";
+
+});
+
+const marker = document.querySelector("a-marker");
+
+marker.addEventListener("markerFound", function () {
+
+    video.play().catch(function(error){
+        console.log(error);
+    });
+
+});
+
+marker.addEventListener("markerLost", function () {
+
+    video.pause();
+
+});
+
 </script>
 
 </body>
