@@ -204,7 +204,53 @@ button{
 
 }
 
-    
+#celebracion{
+
+    display:none;
+
+    position:fixed;
+
+    left:0;
+    top:0;
+
+    width:100%;
+    height:100%;
+
+    z-index:4000;
+
+    pointer-events:none;
+}
+
+.estrellaCelebracion{
+
+    position:fixed;
+
+    width:80px;
+
+    animation:caerEstrella 2s linear forwards;
+}
+
+@keyframes caerEstrella{
+
+    0%{
+
+        transform:
+        translateY(-150px)
+        rotate(0deg);
+
+        opacity:1;
+    }
+
+    100%{
+
+        transform:
+        translateY(120vh)
+        rotate(720deg);
+
+        opacity:0;
+    }
+
+}
 </style>
 
 </head>
@@ -238,16 +284,24 @@ Ayuda a Mario a reunir estrellas galácticas.
 </div>
 
 <div id="resultado"></div>
-
+<div id="celebracion"></div>
+    
 <img id="star" src="star.png">
 <audio id="coinSound" preload="auto">
     <source src="coin.mp3" type="audio/mpeg">
 </audio>
-    
+<audio id="yahooSound" preload="auto">
+    <source src="yahoo.mp3" type="audio/mpeg">
+</audio>   
 <script>
 
 const coinSound = document.getElementById("coinSound");
-
+const yahooSound =
+document.getElementById("yahooSound");
+const celebracion =
+document.getElementById("celebracion");
+const resultado =
+document.getElementById("resultado");
 const estrellas = [
 
     "yellowstar.png",
@@ -310,6 +364,46 @@ function mostrarPunto(x,y){
         punto.remove();
 
     },800);
+
+}
+
+function lanzarCelebracion(){
+
+    celebracion.innerHTML = "";
+
+    celebracion.style.display = "block";
+
+    yahooSound.currentTime = 0;
+
+    yahooSound.play();
+
+    for(let i=0;i<25;i++){
+
+        const estrella =
+        document.createElement("img");
+
+        estrella.className =
+        "estrellaCelebracion";
+
+        estrella.src =
+        estrellas[Math.floor(
+        Math.random()*estrellas.length)];
+
+        estrella.style.left =
+        Math.random()*90 + "%";
+
+        estrella.style.animationDelay =
+        (Math.random()*0.8)+"s";
+
+        celebracion.appendChild(estrella);
+
+    }
+
+    setTimeout(function(){
+
+        celebracion.style.display="none";
+
+    },2000);
 
 }
 star.addEventListener("click", function(){
@@ -376,27 +470,33 @@ document.getElementById("comenzar")
 
             if(puntos >= 30) rango = "👑 Maestro de la Galaxia";
 
-            document.getElementById("resultado").innerHTML = `
+lanzarCelebracion();
 
-                <h1>🌟 Fin del Juego 🌟</h1>
+setTimeout(function(){
 
-                <h2>${puntos} estrellas</h2>
+    resultado.innerHTML = `
 
-                <h2>${rango}</h2>
+        <h1>🌟 Fin del Juego 🌟</h1>
 
-                <button onclick="location.reload()">
-                Jugar otra vez
-                </button>
+        <h2>${puntos} estrellas</h2>
 
-                <br>
+        <h2>${rango}</h2>
 
-                <button onclick="window.location.href='index.html'">
-                Volver a la invitación
-                </button>
+        <button onclick="location.reload()">
+        Jugar otra vez
+        </button>
 
-            `;
+        <br>
 
-            document.getElementById("resultado").style.display = "block";
+        <button onclick="window.location.href='index.html'">
+        Volver a la invitación
+        </button>
+
+    `;
+
+    resultado.style.display = "block";
+
+},2000);
         }
 
     },1000);
