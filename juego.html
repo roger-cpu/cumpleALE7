@@ -48,7 +48,7 @@ body{
 
     color:white;
 
-    padding:12px 22px;
+    padding:12px 24px;
 
     border-radius:20px;
 
@@ -56,8 +56,13 @@ body{
     font-weight:bold;
 
     box-shadow:0 0 15px rgba(0,0,0,0.5);
-}
 
+    white-space:nowrap;
+
+    min-width:220px;
+
+    text-align:center;
+}
 #inicio{
 
     position:fixed;
@@ -235,9 +240,24 @@ Ayuda a Mario a reunir estrellas galácticas.
 <div id="resultado"></div>
 
 <img id="star" src="star.png">
-
+<audio id="coinSound" preload="auto">
+    <source src="coin.mp3" type="audio/mpeg">
+</audio>
+    
 <script>
 
+const coinSound = document.getElementById("coinSound");
+
+const estrellas = [
+
+    "yellowstar.png",
+    "bluestar.png",
+    "pinkstar.png",
+    "blackstar.png"
+
+];
+
+let estrellaActual = 0;
 let puntos = 0;
 let tiempo = 30;
 
@@ -293,8 +313,15 @@ function mostrarPunto(x,y){
 
 }
 star.addEventListener("click", function(){
-
+    coinSound.currentTime = 0;
+    coinSound.play();
     puntos++;
+    estrellaActual++;
+
+    if(estrellaActual >= estrellas.length){
+    estrellaActual = 0;
+    }
+    star.src = estrellas[estrellaActual];
     mostrarPunto(x,y);
     document.getElementById("puntos").innerText = puntos;
 
