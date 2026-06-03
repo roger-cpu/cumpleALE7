@@ -67,7 +67,7 @@ font-weight:bold;
 text-align:center;
 box-shadow:0 0 10px rgba(0,0,0,0.4);
 ">
-⭐ Apunta a la invitación para iniciar la misión... 3
+⭐ Apunta a la invitación para iniciar la misión... 4
 </div>
 
 
@@ -335,7 +335,15 @@ document.getElementById("juegoBtn")
 
   
 const marker = document.querySelector("a-nft");
+console.log("NFT:", marker);
 
+marker.addEventListener("markerFound", function () {
+    console.log("NFT DETECTADO");
+});
+
+marker.addEventListener("markerLost", function () {
+    console.log("NFT PERDIDO");
+});
 marker.addEventListener("markerFound", function () {
 
     marcadorVisible = true;
